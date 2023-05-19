@@ -1,0 +1,4 @@
+enum FilterTypeEntity {
+  name,
+  number
+}
