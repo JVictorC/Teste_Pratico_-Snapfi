@@ -65,6 +65,8 @@ class _DetailsPokemonPageState extends State<DetailsPokemonPage> {
 
     final PokemonEntity pokemonDetail = arguments["pokemon"];
 
+    bool isBigScreen() => MediaQuery.of(context).size.height > 800;
+
     return StructureBase(
       backgroundColor: _getColorPokemon(pokemonDetail.type.first),
       appBar: BaseAppBar(
@@ -90,161 +92,168 @@ class _DetailsPokemonPageState extends State<DetailsPokemonPage> {
           (_) => false,
         ),
       ),
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              Container(
-                margin: EdgeInsets.only(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * .3,
                     left: 10,
-                    right: 10),
-                height: MediaQuery.of(context).size.height * .52,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  children: [
-                    const Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: pokemonDetail.type
-                          .map(
-                            (e) => TypePokemonColor(typePokemon: e),
-                          )
-                          .toList(),
-                    ),
-                    Text(
-                      "About",
-                      style:
-                          Theme.of(context).textTheme.displayMedium?.copyWith(
-                                color: _getColorPokemon(
-                                  pokemonDetail.type.first,
-                                ),
-                              ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 5,
-                        horizontal: 30,
+                    right: 10,
+                  ),
+                  height: MediaQuery.of(context).size.height * .6,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    children: [
+                      Spacer(
+                        flex: isBigScreen() ? 2 : 1,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          AboutCard(
-                            image: "weight_icon.png",
-                            value: pokemonDetail.toFormattedWeightPokemon,
-                            title: "Weight",
-                          ),
-                          const CustomDivider(),
-                          AboutCard(
-                            image: "height_icon.png",
-                            value: pokemonDetail.toFormattedHeightPokemon,
-                            title: "Height",
-                          ),
-                          const CustomDivider(),
-                          AboutCardMoves(
-                            value: pokemonDetail.moves,
-                            title: "Moves",
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 10,
-                      ),
-                      child: Column(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Column(
-                            key: const Key("DetailsPageStatus"),
-                            children: [
-                              LinearGraphic(
-                                label: "HP",
-                                points: pokemonDetail.healthPoints,
-                                value: pokemonDetail.healthPoints,
-                                color: _getColorPokemon(
-                                  pokemonDetail.type.first,
-                                ),
-                              ),
-                              LinearGraphic(
-                                label: "ATK",
-                                points: pokemonDetail.strengthPoints,
-                                value: pokemonDetail.defensePoints,
-                                color: _getColorPokemon(
-                                  pokemonDetail.type.first,
-                                ),
-                              ),
-                              LinearGraphic(
-                                label: "DEF",
-                                points: pokemonDetail.defensePoints,
-                                value: pokemonDetail.strengthPoints,
-                                color: _getColorPokemon(
-                                  pokemonDetail.type.first,
-                                ),
-                              ),
-                              LinearGraphic(
-                                label: "SATK",
-                                points: pokemonDetail.specialStrengthPoints,
-                                value: pokemonDetail.strengthPoints,
-                                color: _getColorPokemon(
-                                  pokemonDetail.type.first,
-                                ),
-                              ),
-                              LinearGraphic(
-                                label: "SDEF",
-                                points: pokemonDetail.specialDefensePoints,
-                                value: pokemonDetail.strengthPoints,
-                                color: _getColorPokemon(
-                                  pokemonDetail.type.first,
-                                ),
-                              ),
-                              LinearGraphic(
-                                label: "SPD",
-                                points: pokemonDetail.speedPoints,
-                                value: pokemonDetail.strengthPoints,
-                                color: _getColorPokemon(
-                                  pokemonDetail.type.first,
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
+                        children: pokemonDetail.type
+                            .map(
+                              (e) => TypePokemonColor(typePokemon: e),
+                            )
+                            .toList(),
                       ),
-                    ),
-                  ],
+                      Text(
+                        "About",
+                        style:
+                            Theme.of(context).textTheme.displayMedium?.copyWith(
+                                  color: _getColorPokemon(
+                                    pokemonDetail.type.first,
+                                  ),
+                                ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 5,
+                          horizontal: 15,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            AboutCard(
+                              image: "weight_icon.png",
+                              value: pokemonDetail.toFormattedWeightPokemon,
+                              title: "Weight",
+                            ),
+                            const CustomDivider(),
+                            AboutCard(
+                              image: "height_icon.png",
+                              value: pokemonDetail.toFormattedHeightPokemon,
+                              title: "Height",
+                            ),
+                            const CustomDivider(),
+                            AboutCardMoves(
+                              value: pokemonDetail.moves,
+                              title: "Moves",
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 10,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              key: const Key("DetailsPageStatus"),
+                              children: [
+                                LinearGraphic(
+                                  label: "HP",
+                                  points: pokemonDetail.healthPoints,
+                                  value: pokemonDetail.healthPoints,
+                                  color: _getColorPokemon(
+                                    pokemonDetail.type.first,
+                                  ),
+                                ),
+                                LinearGraphic(
+                                  label: "ATK",
+                                  points: pokemonDetail.strengthPoints,
+                                  value: pokemonDetail.defensePoints,
+                                  color: _getColorPokemon(
+                                    pokemonDetail.type.first,
+                                  ),
+                                ),
+                                LinearGraphic(
+                                  label: "DEF",
+                                  points: pokemonDetail.defensePoints,
+                                  value: pokemonDetail.strengthPoints,
+                                  color: _getColorPokemon(
+                                    pokemonDetail.type.first,
+                                  ),
+                                ),
+                                LinearGraphic(
+                                  label: "SATK",
+                                  points: pokemonDetail.specialStrengthPoints,
+                                  value: pokemonDetail.strengthPoints,
+                                  color: _getColorPokemon(
+                                    pokemonDetail.type.first,
+                                  ),
+                                ),
+                                LinearGraphic(
+                                  label: "SDEF",
+                                  points: pokemonDetail.specialDefensePoints,
+                                  value: pokemonDetail.strengthPoints,
+                                  color: _getColorPokemon(
+                                    pokemonDetail.type.first,
+                                  ),
+                                ),
+                                LinearGraphic(
+                                  label: "SPD",
+                                  points: pokemonDetail.speedPoints,
+                                  value: pokemonDetail.strengthPoints,
+                                  color: _getColorPokemon(
+                                    pokemonDetail.type.first,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      isBigScreen() ? const Spacer() : const SizedBox(),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * .5,
-                width: double.infinity,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      right: 0,
-                      child: Image.asset(
-                        "assets/images/pokeball_background.png",
-                        height: 300,
-                        width: 250,
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * .5,
+                  width: MediaQuery.of(context).size.width,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        right: 0,
+                        child: Image.asset(
+                          "assets/images/pokeball_background.png",
+                          height: MediaQuery.of(context).size.height * .3,
+                          width: MediaQuery.of(context).size.width * .5,
+                        ),
                       ),
-                    ),
-                    Center(
-                      child: CachedNetworkImage(
-                        key: const Key("DetailsPageImage"),
-                        imageUrl: pokemonDetail.imagePokemon,
-                        height: 300,
-                        width: 300,
+                      Center(
+                        child: CachedNetworkImage(
+                          key: const Key("DetailsPageImage"),
+                          imageUrl: pokemonDetail.imagePokemon,
+                          height: MediaQuery.of(context).size.height * .3,
+                          width: MediaQuery.of(context).size.height * .3,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ],
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
