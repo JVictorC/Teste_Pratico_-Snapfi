@@ -3,4 +3,4 @@ echo "Clean all packages"
 echo "Get in all packages"
   flutter pub get
 echo "Run App"
-  flutter run -t lib/src/main.dart
+  flutter run -t lib/main.dart
